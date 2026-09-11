@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class OpponentController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Transform ballTransform;
+
     void Start()
     {
-        
+        ballTransform = GameObject.FindWithTag("Ball").transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
