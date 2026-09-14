@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class OpponentController : MonoBehaviour
 {
+    private Rigidbody2D opponentRB;
     public float speed = 15.0f;
     public float yBoundary = 4.0f;
     private Transform ballTransform;
@@ -9,17 +10,15 @@ public class OpponentController : MonoBehaviour
     void Start()
     {
         ballTransform = GameObject.FindWithTag("Ball").transform;
+        opponentRB = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (ballTransform.position.y > transform.position.y) {
-            float newY = transform.position.y + (speed * Time.deltaTime);
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(newY, -yBoundary, yBoundary), transform.position.z);
-        }
-        else if (ballTransform.position.y < transform.position.y) {
-            float newY = transform.position.y - (speed * Time.deltaTime);
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(newY, -yBoundary, yBoundary), transform.position.z);
-        }
+        if (ballTransform == null) return;
+
+        float targetY = Mathf.MoveTowards(opponentRB.position.y, ballTransform.position.y, speed * Time.fixedDeltaTime);
+        float clampedY = Mathf.Clamp(targetY, -yBoundary, yBoundary);
+        opponentRB.MovePosition(new Vector2(opponentRB.position.x, clampedY));
     }
 }
