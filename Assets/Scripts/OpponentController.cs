@@ -3,7 +3,7 @@ using UnityEngine;
 public class OpponentController : MonoBehaviour
 {
     private Rigidbody2D opponentRB;
-    public float speed = 15.0f;
+    public float speed = 6.0f;
     public float yBoundary = 4.0f;
     private Transform ballTransform;
 
@@ -17,8 +17,10 @@ public class OpponentController : MonoBehaviour
     {
         if (ballTransform == null) return;
 
-        float targetY = Mathf.MoveTowards(opponentRB.position.y, ballTransform.position.y, speed * Time.fixedDeltaTime);
-        float clampedY = Mathf.Clamp(targetY, -yBoundary, yBoundary);
-        opponentRB.MovePosition(new Vector2(opponentRB.position.x, clampedY));
+        if (ballTransform.position.x > 0) {
+            float targetY = Mathf.Lerp(opponentRB.position.y, ballTransform.position.y, 0.08f);
+            float clampedY = Mathf.Clamp(targetY, -yBoundary, yBoundary);
+            opponentRB.MovePosition(new Vector2(opponentRB.position.x, clampedY));
+        }
     }
 }
