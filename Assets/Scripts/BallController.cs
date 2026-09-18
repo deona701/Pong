@@ -9,7 +9,8 @@ public class BallController : MonoBehaviour
     public float acceleration = 0.3f;
     public float maxSpeed = 20.0f;
 
-    public float xBoundary = 8.0f;
+    public float xBoundary = 12.0f;
+    public GameObject restartButton;
 
 
     void Start() {
@@ -22,6 +23,16 @@ public class BallController : MonoBehaviour
         }
         else {
             ballRB.linearVelocity = new Vector2(-5f, directionVertical);
+        }
+    }
+
+    void Update() {
+            if (Mathf.Abs(transform.position.x) > xBoundary) {
+            if (restartButton != null) {
+                restartButton.SetActive(true);
+            }
+
+            Destroy(gameObject);
         }
     }
 
